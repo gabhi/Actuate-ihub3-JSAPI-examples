@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/
+	html;charset=utf-8" />
+	<title>Viewer With Parameters Page</title>
+</head>
+<body onload="init( )">
+	<div id="parampane">
+		<script type="text/javascript" language="JavaScript"
+		src="http://localhost:8080/webapp/jsapi"></script>
+		<script type="text/javascript" language="JavaScript">
+		function init( )	{
+			actuate.load("viewer");
+			actuate.load("parameter");
+			actuate.initialize( "http://localhost:8080/webapp", null,null, null, displayParams);
+		}
+		function displayParams( ) {
+			param = new actuate.Parameter("parampane");
+			param.setReportName("/Customer Order History.rptdesign");
+			param.submit(
+				function ( ) {this.run.style.visibility = 'visible';});
+		}
+		function processParameters( ) {
+			param.downloadParameterValues(runReport);
+		}
+		</script>
+	</div>
+	<hr><br />
+	<input type="button" class="btn" name="run"
+	value="Run Report" onclick="processParameters( )"
+	style="visibility: hidden">
+	
+	<div id="viewerpane">
+		<script type="text/javascript" language="JavaScript" src="http://localhost:8080/webapp/jsapi"></script>
+		<script type="text/javascript" language="JavaScript">
+		function runReport(paramvalues) {
+			var viewer = new actuate.Viewer("viewerpane");
+			viewer.setReportName("/Customer Order History.rptdesign");
+			viewer.setParameterValues(paramvalues);
+			viewer.submit( );
+		}
+		</script>
+	</div>
+</body>
+</html>
